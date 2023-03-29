@@ -7,14 +7,8 @@ def solution(n, info):
         answer.append(-1)
     else:
         max_gap = sorted(arrows_dict.keys(), reverse=True)[0]
-        arrows = [int("".join(map(str, reversed(i)))) for i in arrows_dict[max_gap]]
-        ind = 0
-        chk = 0
-        for i in range(len(arrows)):
-            if arrows[i] > chk:
-                ind = i
-                chk = arrows[i]
-        answer = arrows_dict[max_gap][ind]
+        answer = list(reversed(list(map(int, list(str(max([int("".join(map(str, reversed(i)))) for i in arrows_dict[max_gap]])))))))
+        answer += [0]*(11-len(answer))
     return answer
 
 def Gap(info, i, n, arrows, res, arrows_dict):
@@ -42,7 +36,8 @@ def Gap(info, i, n, arrows, res, arrows_dict):
     else:
         arrow = info[i] + 1
         if arrow > n:
-            arrow = 0
+            Gap(info, i + 1, n, [] + arrows+[0], res, arrows_dict)
+            return
         Gap(info, i + 1, n, [] + arrows+[0], res, arrows_dict)
         arrows.append(arrow)
         Gap(info, i + 1, n - arrow, [] + arrows, res, arrows_dict)
