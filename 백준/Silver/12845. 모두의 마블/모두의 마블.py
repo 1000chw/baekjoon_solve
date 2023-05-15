@@ -1,3 +1,6 @@
+import sys
+input = sys.stdin.readline
 n = int(input())
 li = list(map(int, input().split()))
-print(sum(li) - max(li) + max(li)*(len(li)-1))
+x = max(li)
+print(sum(li) - x + x*(len(li)-1))
