@@ -1,9 +1,6 @@
 import sys
+from math import log2, ceil
 input = sys.stdin.readline
-
-leaf = []
-tree = [0] * 10000000
-
 
 def makeTree(node, start, end):
     if start == end:
@@ -32,6 +29,8 @@ def updateTree(node, start, end, ind, num):
 
 
 N, M, K = map(int, input().split())
+leaf = []
+tree = [0]*(2**(int(ceil(log2(N)))+1))
 
 for _ in range(N):
     leaf.append(int(input()))
