@@ -12,6 +12,7 @@ def solution(n, info):
     else:
         answer = list(reversed(list(map(int, list(str(max([int("".join(map(str, reversed(i)))) for i in arrows_dict[res[0]]])))))))
         answer += [0]*(11-len(answer))
+        #answer = arrows_dict[res[0]][0]
     return answer
 
 def Gap(info, i, n, arrows, res, arrows_dict, r_score, p_score):
@@ -27,12 +28,12 @@ def Gap(info, i, n, arrows, res, arrows_dict, r_score, p_score):
         return
     elif i == 10:
         arrows.append(n)
-        Gap(info, i + 1, 0, [] + arrows, res, arrows_dict, r_score, p_score)
+        Gap(info, i + 1, 0, arrows[:], res, arrows_dict, r_score, p_score)
     else:
         arrow = info[i] + 1
         if arrow > n:
-            Gap(info, i + 1, n, [] + arrows+[0], res, arrows_dict, r_score, p_score)
+            Gap(info, i + 1, n, arrows[:]+[0], res, arrows_dict, r_score, p_score)
             return
-        Gap(info, i + 1, n, [] + arrows+[0], res, arrows_dict, r_score, p_score)
+        Gap(info, i + 1, n, arrows[:]+[0], res, arrows_dict, r_score, p_score)
         arrows.append(arrow)
-        Gap(info, i + 1, n - arrow, [] + arrows, res, arrows_dict,r_score+10-i, p_score-10+i if info[i] else p_score)
+        Gap(info, i + 1, n - arrow, arrows[:], res, arrows_dict,r_score+10-i, p_score-10+i if info[i] else p_score)
