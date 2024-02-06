@@ -33,7 +33,7 @@ int main() {
         cin >> a >> b >> c >> d;
 
         int idx;
-        for (int j = 0; j < n - 1; j++) {
+        for (int j = 0; j < n; j++) {
             if (v[j].first == a && v[j].second == b) {
                 idx = j;
                 break;
@@ -41,25 +41,15 @@ int main() {
         }
 
         int high = b;
-        for (int j = idx - 1; j > 0; j--) {
-            if (high > v[j].second)
-                high = v[j].second;
-
-            if (m.find(v[j].first) == m.end())
-                m.insert({ v[j].first, high });
-            else if (m[v[j].first] < high)
-                m[v[j].first] = high;
+        for (int j = idx - 1; j >= 0; j -= 2) {
+            high = min(high, v[j].second);
+            m[v[j].first] = max(m[v[j].first], high);
         }
 
         high = b;
-        for (int j = idx + 1; j < n; j++) {
-            if (high > v[j].second)
-                high = v[j].second;
-
-            if (m.find(v[j].first) == m.end())
-                m.insert({ v[j].first, high });
-            else if (m[v[j].first] < high)
-                m[v[j].first] = high;
+        for (int j = idx + 1; j < n; j += 2) {
+            high = min(high, v[j].second);
+            m[v[j].first] = max(m[v[j].first], high);
         }
     }
 
@@ -68,7 +58,7 @@ int main() {
         res += (v[i].first - v[i - 1].first) * m[v[i].first];
     }
 
-    cout << sum - res;
+    cout << sum - res << '\n';
 
     return 0;
 }
