@@ -1,6 +1,6 @@
 import sys
 input = sys.stdin.readline
-k = 2100001
+k = 2000001
 N = [True]*k
 PN = []
 for i in range(2, k):
