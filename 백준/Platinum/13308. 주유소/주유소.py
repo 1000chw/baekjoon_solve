@@ -8,22 +8,24 @@ lp = [0] + list(map(int, input().split()))
 cities = defaultdict(list)
 answer = float('inf')
 
-def goToN(cur, n):
-    visited = [float('inf')]*(n+1)
-    visited[cur] = 0
-    q = [(0, cur)]
+
+def goToN():
+    visited = [[float('inf')]*(n+1) for _ in range(2501)]
+    visited[lp[1]][1] = 0
+    q = [(0, 1, lp[1])]
     while q:
-        cost, v = heappop(q)
-        if visited[v] != cost:
+        cost, v, pr = heappop(q)
+        if visited[pr][v] != cost:
             continue
         if v == n:
-            continue
+            print(cost)
+            return
+        pr = min(pr, lp[v])
         for nv, c in cities[v]:
-            if visited[nv] > c + cost:
-                visited[nv] = c + cost
-                heappush(q, (c + cost, nv))
-
-    return visited
+            nc = c * pr + cost
+            if visited[pr][nv] > nc:
+                visited[pr][nv] = nc
+                heappush(q, (nc, nv, pr))
 
 
 for i in range(m):
@@ -31,22 +33,5 @@ for i in range(m):
     cities[x].append((y, c))
     cities[y].append((x, c))
 
-times = [[]]
-for i in range(1, n):
-    timeToN = list(map(lambda x: x * lp[i], goToN(i, n)))
-    times.append(timeToN)
 
-timechk = [float('inf')]*(n+1)
-def solve(cur, n, cost):
-    global answer
-    if timechk[cur] > cost:
-        timechk[cur] = cost
-    else:
-        return
-    for i in range(1, n):
-        if lp[i] < lp[cur] and timechk[i] > cost + times[cur][i]:
-            solve(i, n, cost + times[cur][i])
-    answer = min(answer, cost + times[cur][n])
-
-solve(1, n, 0)
-print(answer)
+goToN()
