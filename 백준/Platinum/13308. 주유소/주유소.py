@@ -36,11 +36,15 @@ for i in range(1, n):
     timeToN = list(map(lambda x: x * lp[i], goToN(i, n)))
     times.append(timeToN)
 
-
+timechk = [float('inf')]*(n+1)
 def solve(cur, n, cost):
     global answer
+    if timechk[cur] > cost:
+        timechk[cur] = cost
+    else:
+        return
     for i in range(1, n):
-        if lp[i] < lp[cur]:
+        if lp[i] < lp[cur] and timechk[i] > cost + times[cur][i]:
             solve(i, n, cost + times[cur][i])
     answer = min(answer, cost + times[cur][n])
 
