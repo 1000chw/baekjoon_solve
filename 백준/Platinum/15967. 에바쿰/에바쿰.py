@@ -1,8 +1,8 @@
 import sys
 input = sys.stdin.readline
-II = lambda: int(input())
-MII = lambda: map(int, input().split())
-IR = lambda: input().rstrip()
+
+N, Q1, Q2 = map(int, input().split())
+a = [0] + list(map(int, input().split()))
 
 tree = [0 for _ in range(4000001)]
 lazy = [0 for _ in range(4000001)]
@@ -32,23 +32,36 @@ def find(node, start, end, left, right):
     tree[node] += lazy[node]
     answer = lazy[node]
     lazy[node] = 0
+    if start == end:
+        if left <= start <= right:
+            return tree[node]
+        return 0
+    lazy[node * 2] += ((start + end) // 2 - start + 1) * (answer // (end - start + 1))
+    lazy[node * 2 + 1] += (end - (start + end) // 2) * (answer // (end - start + 1))
     if left <= start and end <= right:
         return tree[node]
     elif right < start or left > end:
         return 0
-    lazy[node * 2] += ((start + end) // 2 - start + 1)*(answer // (end - start + 1))
-    lazy[node * 2 + 1] += (end - (start + end) // 2)*(answer // (end - start + 1))
-
-    return find(node * 2 + 1, (start + end) // 2 + 1, end, left, right) + find(node * 2, start, (start + end) // 2, left, right)
+    return find(node * 2 + 1, (start + end) // 2 + 1, end, left, right) + find(node * 2, start, (start + end) // 2,
+                                                                               left, right)
 
 
-N, Q1, Q2 = MII()
-a = list(MII())
-for i in range(N):
-    update(1, 1, N, i+1, i+1, a[i])
+def init(node, left, right):
+    if left == right:
+        tree[node] = a[left]
+        return tree[node]
+    else:
+        mid = (left + right) // 2
+        tree[node] = init(node * 2, left, mid) + init(node * 2 + 1, mid + 1, right)
+        return tree[node]
+
+
+init(1, 1, N)
 
 for _ in range(Q1 + Q2):
-    query = list(MII())
+    query = list(map(int, input().split()))
+    if query[1] > query[2]:
+        query[1], query[2] = query[2], query[1]
     if query[0] == 1:
         print(find(1, 1, N, query[1], query[2]))
     else:
