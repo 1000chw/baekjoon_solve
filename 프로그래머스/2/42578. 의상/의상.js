@@ -12,16 +12,15 @@ function solution(clothes) {
     nums.push(value.length);
   })
 
-  if (nums.length === 1) return nums[0];
-  answer = fashion(nums, 0, 0);
+  answer = fashion(nums, 0) - 1;
 
-  return answer[0] + answer[1];
+  return answer;
 }
 
 function fashion(nums, idx) {
-  if (idx === nums.length - 1) {
-    return [0,  nums[idx]];
+  if (idx === nums.length) {
+    return 1;
   }
   const res = fashion(nums, idx + 1);
-  return [res[0] + res[1], (res[0] + 1 + res[1]) * nums[idx]];
+  return res * (nums[idx] + 1);
 }
