@@ -1,13 +1,17 @@
 function solution(numbers, target) {
-  return solve(numbers, target, 0, 0);
+  let answer = 0;
+  solve(0, 0)
+  function solve(ind, result) {
+    if (ind === numbers.length) {
+      if (result === target) {
+        answer++;
+      }
+    } else {
+      solve(ind + 1, result + numbers[ind]);
+      solve(ind + 1, result - numbers[ind]);
+    }
+  }
+
+  return answer;
 }
 
-function solve(numbers, target, ind, result) {
-  if (ind === numbers.length) {
-    if (result === target) {
-      return 1;
-    }
-    return 0;
-  }
-  return solve(numbers, target, ind+1, result + numbers[ind]) + solve(numbers, target, ind+1, result - numbers[ind]);
-}
