@@ -1,23 +1,10 @@
-def maxn(lst, lst1):
-    if max(lst)<0:
-        return max(lst)
-    x = 0
-    for i in lst:
-        x += i
-        if x < 0:
-            lst1.append(x - i)                  
-            x = 0
-        elif 0 <= x < x - i:
-            lst1.append(x - i)
-    lst1.append(x)
-    return max(lst1)
-        
-s = input()
-n = input().split()
-for j in range(len(n)):
-    n[j] = int(n[j])
-l = []
-print(maxn(n, l))
+n = int(input())
+nums = [0] + list(map(int, input().split()))
 
+dp = [0] * (n+1)
+res = -float('INF')
 
-
+for i in range(1, n+1):
+    dp[i] = max(dp[i-1] + nums[i], nums[i])
+    res = max(res, dp[i])
+print(res)
