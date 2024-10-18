@@ -1,3 +1,5 @@
+from math import sqrt
+
 def solution(numbers):
     answer = 0
     number_list = list(numbers)
@@ -14,7 +16,7 @@ def makePrimes():
     isPrime[0] = False
     isPrime[1] = False
     
-    for i in range(2, l):
+    for i in range(2, int(sqrt(l))+1):
         if isPrime[i]:
             for j in range(2, l//i+1):
                 isPrime[i * j] = False
