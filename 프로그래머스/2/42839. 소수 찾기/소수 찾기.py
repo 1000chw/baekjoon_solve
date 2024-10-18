@@ -1,13 +1,17 @@
 from math import sqrt
+from itertools import permutations
 
 def solution(numbers):
     answer = 0
     number_list = list(numbers)
-    used_list = [False] * len(number_list)
     isPrime = makePrimes()
+    a = set()
     for i in range(1, len(number_list)+1):
-        answer += findPrimeNumber(number_list, used_list, isPrime, 0, i, '')
-    
+        a |= set(map(int, map("".join, permutations(number_list, i))))
+    number_set = list(a)
+    for number in number_set:
+        if isPrime[number]:
+            answer += 1
     return answer
 
 def makePrimes():
