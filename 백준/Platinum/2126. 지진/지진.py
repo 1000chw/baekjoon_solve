@@ -30,9 +30,9 @@ def union(v1, v2):
     return True
 
 answer = 0
-left, right = 0, 1<<30
+left, right = 0, 2000000000
 
-for _ in range(1000):
+for _ in range(500):
     par = [i for i in range(n + 1)]
     mid = (left + right) / 2
 
